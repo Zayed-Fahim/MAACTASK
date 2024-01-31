@@ -3,9 +3,18 @@ import Router from "./routes/Router";
 
 const App = () => {
   return (
-    <div className="background">
-      <Router />
-    </div>
+    <>
+      <style jsx>
+        {`
+          .background {
+            height: 910px;
+          }
+        `}
+      </style>
+      <div className="background">
+        <Router />
+      </div>
+    </>
   );
 };
 

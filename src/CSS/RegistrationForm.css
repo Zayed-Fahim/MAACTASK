@@ -1,0 +1,25 @@
+.-z-1 {
+  z-index: -1;
+}
+
+.origin-0 {
+  transform-origin: 0%;
+}
+
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label {
+  @apply transform scale-[80%] -translate-y-1;
+}
+
+input:focus ~ label {
+  @apply text-black left-0;
+}
+
+.focus-label {
+  @apply transform scale-[80%] -translate-y-1 text-black;
+  transition: transform 0.2s ease-out;
+}
+
+.filled-label {
+  @apply transform scale-[80%] -translate-y-1 text-black;
+}
