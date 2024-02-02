@@ -1,18 +1,39 @@
+import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { MdChevronRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const CreateArea = () => {
   const { handleSubmit, register, reset } = useForm();
-  const onSubmit = (data) => {
-    console.log("Form submitted with data:", data);
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/area",
+        data
+      );
+      if (response?.data.status === "Success") {
+        toast.success(response.data.message);
+        reset();
+      } else {
+        toast.error(
+          response?.data.message || "Attempt failed! Please try again later."
+        );
+      }
+    } catch (error) {
+      if (error?.response && error?.response.status === 509) {
+        toast.error("Area already available!");
+      } else {
+        toast.error("Error during adding area. Please try again.");
+        console.log(error.message);
+      }
+    }
   };
   return (
     <div className="px-6 pb-[99px]">
       <div className="flex flex-col gap-2 py-8">
-        <p className="font-bold text-xl">Create Area</p>
+        <p className="font-bold text-[18px]">Create Area</p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-[1.5px]">
             <p className="text-[#77838F] text-sm">Geo</p>
@@ -31,7 +52,7 @@ const CreateArea = () => {
       <div className="w-full h-[635px] flex justify-center">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-y-4 bg-white rounded-lg p-10 w-[380px] h-[310px]"
+          className="flex flex-col gap-14 bg-white rounded-lg p-10 w-[475px] h-[370px]"
         >
           <div className="flex gap-4 flex-col">
             <div>
@@ -41,14 +62,30 @@ const CreateArea = () => {
               >
                 Region
               </label>
-              <input
-                type="text"
-                id="region"
-                placeholder="Type Region"
-                name="region"
+              <select
+                required
                 {...register("region")}
-                className="border w-full h-12 rounded-lg focus:outline-none pl-2"
-              />
+                className="border w-full h-12 rounded-lg focus:outline-none mt-2 pl-2 appearance-none text-[#495057]"
+              >
+                <option value="" selected>
+                  Select region
+                </option>
+                <option className="text-[18px] font-serif" value="region_1">
+                  Region 1
+                </option>
+                <option className="text-[18px] font-serif" value="region_2">
+                  Region 2
+                </option>
+                <option className="text-[18px] font-serif" value="region_3">
+                  Region 3
+                </option>
+                <option className="text-[18px] font-serif" value="region_4">
+                  Region 4
+                </option>
+                <option className="text-[18px] font-serif" value="region_5">
+                  Region 5
+                </option>
+              </select>
             </div>
             <div>
               <label
@@ -63,7 +100,7 @@ const CreateArea = () => {
                 placeholder="Type Area"
                 name="area"
                 {...register("area")}
-                className="border w-full h-12 rounded-lg focus:outline-none pl-2"
+                className="border w-full h-12 rounded-lg focus:outline-none pl-2 mt-2"
               />
             </div>
           </div>

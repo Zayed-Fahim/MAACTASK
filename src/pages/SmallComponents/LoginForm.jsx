@@ -20,18 +20,18 @@ const LoginForm = () => {
         "https://maactask-server.vercel.app/api/v1/users/login",
         data
       );
-      if (response.data.status === "Success") {
-        const token = response.data.payload.token;
+      if (response?.data.status === "Success") {
+        const token = await response.data.payload.token;
+        setUser(response.data.payload.newUserData);
         Cookies.set("token", token, { expires: 90 });
         toast.success("Successfully logged in!");
-        setUser(response.data.payload.newUserData);
         navigate("/dashboard");
         reset();
       } else {
-        toast.error(response.data.message || "Invalid email or password!");
+        toast.error(response?.data.message || "Invalid email or password!");
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
+      if (error?.response && error?.response.status === 401) {
         toast.error("Invalid email or password!");
       } else {
         toast.error("Error during login. Please try again.");
