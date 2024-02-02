@@ -17,16 +17,16 @@ const LoginForm = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/users/login",
+        "https://maactask-server.vercel.app/api/v1/users/login",
         data
       );
       if (response.data.status === "Success") {
         const token = response.data.payload.token;
         Cookies.set("token", token, { expires: 90 });
         toast.success("Successfully logged in!");
-        setTimeout(() => navigate("/dashboard"), 1500);
-        reset();
         setUser(response.data.payload.newUserData);
+        navigate("/dashboard");
+        reset();
       } else {
         toast.error(response.data.message || "Invalid email or password!");
       }
@@ -49,6 +49,7 @@ const LoginForm = () => {
         <input
           type="email"
           name="email"
+          required
           placeholder=" "
           {...register("email")}
           className="pt-4 pb-2 block w-full pl-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
@@ -64,6 +65,7 @@ const LoginForm = () => {
         <input
           type="password"
           name="password"
+          required
           placeholder=" "
           {...register("password")}
           className="pt-4 pb-2 block w-full pl-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"

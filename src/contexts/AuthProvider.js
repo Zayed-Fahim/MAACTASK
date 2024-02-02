@@ -15,7 +15,7 @@ const AuthProvider = ({ children }) => {
         setIsLoading(true);
 
         const response = await axios.get(
-          "http://localhost:8080/api/v1/users/login/verify",
+          "https://maactask-server.vercel.app/api/v1/users/login/verify",
           {
             headers: {
               Authorization: token,

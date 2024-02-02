@@ -5,14 +5,33 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import "../../CSS/RegistrationForm.css";
 import Button from "./Button";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup
+  .object({
+    password: yup
+      .string()
+      .min(6, "Password length should be at least 6 characters")
+      .max(8, "Password cannot exceed more than 8 characters"),
+    cPassword: yup
+      .string()
+      .min(6, "Password length should be at least 6 characters")
+      .max(8, "Password cannot exceed more than 8 characters")
+      .oneOf([yup.ref("password")], "Password do not match"),
+  })
+  .required();
 
 const RegistrationForm = () => {
   const {
     handleSubmit,
     register,
-    // reset,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: "onTouched",
+    resolver: yupResolver(schema),
+  });
   const navigate = useNavigate();
   const createAccountButtonClassNames =
     "w-full bg-[#0052cc] py-6 text-xl font-[800] rounded-[8px] text-white";
@@ -28,7 +47,7 @@ const RegistrationForm = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/users/register",
+        "https://maactask-server.vercel.app/api/v1/users/register",
         data
       );
       if (response.data.status === "Success") {
@@ -36,6 +55,7 @@ const RegistrationForm = () => {
         setTimeout(() => {
           navigate("/login");
         }, 1500);
+        reset();
       } else {
         toast.error(response.data.message);
       }
@@ -133,6 +153,9 @@ const RegistrationForm = () => {
           Password
         </label>
       </div>
+      {errors.password && (
+        <p className="text-red-500 -mt-3">{errors.password.message}</p>
+      )}
 
       <div className="relative z-0 w-full">
         <input
@@ -150,7 +173,9 @@ const RegistrationForm = () => {
           Confirm Password
         </label>
       </div>
-
+      {errors.cPassword && (
+        <p className="text-red-500 -mt-3">{errors.cPassword.message}</p>
+      )}
       <div className="relative z-0 w-full">
         <select
           name="role"
