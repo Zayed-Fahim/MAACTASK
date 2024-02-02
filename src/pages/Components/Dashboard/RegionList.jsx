@@ -13,7 +13,9 @@ const RegionList = () => {
   const [regions, setRegions] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get("http://localhost:8080/api/v1/region");
+      const response = await axios.get(
+        "https://maactask-server.vercel.app/api/v1/region"
+      );
       if (response?.data?.status === "Success") {
         setRegions(response?.data?.payload);
       }

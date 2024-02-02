@@ -10,7 +10,7 @@ const CreateArea = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/area",
+        "https://maactask-server.vercel.app/api/v1/area",
         data
       );
       if (response?.data.status === "Success") {

@@ -13,7 +13,9 @@ const AreaList = () => {
   const [areas, setAreas] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get("http://localhost:8080/api/v1/area");
+      const response = await axios.get(
+        "https://maactask-server.vercel.app/api/v1/area"
+      );
       if (response?.data?.status === "Success") {
         setAreas(response?.data?.payload);
       }
