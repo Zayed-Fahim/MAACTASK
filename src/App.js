@@ -6,8 +6,7 @@ import Router from "./routes/Router";
 import { Toaster } from "react-hot-toast";
 
 const App = () => {
-  const { isLoading, user } = useContext(AuthContext);
-  console.log(user);
+  const { isLoading } = useContext(AuthContext);
 
   return (
     <>
