@@ -16,10 +16,10 @@ input:focus ~ label {
 }
 
 .focus-label {
-  @apply transform scale-[80%] -translate-y-1 text-black;
+  @apply transform scale-[80%] -translate-y-2 text-black;
   transition: transform 0.2s ease-out;
 }
 
 .filled-label {
-  @apply transform scale-[80%] -translate-y-1 text-black;
+  @apply transform scale-[80%] -translate-y-2 text-black;
 }
