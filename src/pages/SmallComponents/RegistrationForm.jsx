@@ -209,6 +209,7 @@ const RegistrationForm = () => {
       <div className="flex justify-start items-start h-auto">
         <input
           type="checkbox"
+          required
           {...register("terms")}
           className="h-6 w-7 -mr-7"
           id="terms&conditions"
@@ -220,9 +221,6 @@ const RegistrationForm = () => {
           </span>
         </label>
       </div>
-      {errors.terms && (
-        <p className="text-red-500 text-xl -mt-5">Please accept the terms.</p>
-      )}
       <Button
         buttonClassNames={createAccountButtonClassNames}
         type="submit"
