@@ -22,10 +22,7 @@ const App = () => {
         `}
       </style>
       {isLoading &&
-      (currentPath === "/" ||
-        currentPath === "/login" ||
-        currentPath === "/register" ||
-        currentPath === "/dashboard/area-list") ? (
+      (currentPath === "/" || currentPath === "/dashboard/area-list") ? (
         <Loader />
       ) : (
         <div className="background">
