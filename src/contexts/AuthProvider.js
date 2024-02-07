@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const currentPath = window.location.pathname;
   const [user, setUser] = useState({});
   const token = Cookies.get("token")?.split(" ")[1];
 
@@ -44,6 +45,7 @@ const AuthProvider = ({ children }) => {
     user,
     setUser,
     isLoading,
+    currentPath,
     setIsLoading,
   };
 

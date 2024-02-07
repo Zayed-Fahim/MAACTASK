@@ -1,20 +1,22 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import Button from "./Button";
 import Cookies from "js-cookie";
-import { AuthContext } from "../../contexts/AuthProvider";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
-const LoginForm = () => {
+const LoginForm = ({ setRedirectLoading }) => {
   const { handleSubmit, register, reset } = useForm();
   const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const loginButtonClassNames =
     "w-full bg-[#0052cc] py-6 text-xl font-[800] rounded-[8px] text-white";
-
+  const [Loading, setLoading] = useState(false);
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://maactask-server.vercel.app/api/v1/users/login",
@@ -24,18 +26,25 @@ const LoginForm = () => {
         const token = await response.data.payload.token;
         setUser(response.data.payload.newUserData);
         Cookies.set("token", token, { expires: 90 });
-        toast.success("Successfully logged in!");
-        navigate("/dashboard");
-        reset();
+        setLoading(false);
+        setTimeout(() => setRedirectLoading(true), 1000);
+        setTimeout(() => {
+          navigate("/dashboard");
+          setRedirectLoading(false);
+          reset();
+        }, 2500);
+        setTimeout(() => toast.success("Successfully logged in!"), 3000);
       } else {
         toast.error(response?.data.message || "Invalid email or password!");
+        setLoading(false);
       }
     } catch (error) {
       if (error?.response && error?.response.status === 401) {
         toast.error("Invalid email or password!");
+        setLoading(false);
       } else {
         toast.error("Error during login. Please try again.");
-        console.log(error.message);
+        setLoading(false);
       }
     }
   };
@@ -80,7 +89,18 @@ const LoginForm = () => {
       <Button
         buttonClassNames={loginButtonClassNames}
         type="submit"
-        text="Sign in"
+        text={
+          <div>
+            {Loading ? (
+              <div className="flex items-center gap-4 justify-center">
+                <p>Signing in</p>
+                <div class="registration-loader" />
+              </div>
+            ) : (
+              "Sign in"
+            )}
+          </div>
+        }
       />
     </form>
   );

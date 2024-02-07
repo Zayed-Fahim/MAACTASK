@@ -1,17 +1,17 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Main from "../layout/Main";
-import Home from "../pages/Components/Home";
-import Login from "../pages/Components/Login";
-import Register from "../pages/Components/Register";
 import Dashboard from "../layout/Dashboard";
 import RegionList from "../pages/Components/Dashboard/RegionList";
 import PrivateRoute from "./PrivateRoute";
 import AreaList from "../pages/Components/Dashboard/AreaList";
 import CreateArea from "../pages/Components/Dashboard/CreateArea";
 import CreateRegion from "../pages/Components/Dashboard/CreateRegion";
+import Home from "../pages/Components/Home/Home";
+import Login from "../pages/Components/Home/Login";
+import Register from "../pages/Components/Home/Register";
 
-const Router = () => {
+const Router = ({ redirectLoading, setRedirectLoading }) => {
   const router = createBrowserRouter([
     {
       path: "/",
@@ -23,11 +23,21 @@ const Router = () => {
         },
         {
           path: "/login",
-          element: <Login />,
+          element: (
+            <Login
+              redirectLoading={redirectLoading}
+              setRedirectLoading={setRedirectLoading}
+            />
+          ),
         },
         {
           path: "/register",
-          element: <Register />,
+          element: (
+            <Register
+              redirectLoading={redirectLoading}
+              setRedirectLoading={setRedirectLoading}
+            />
+          ),
         },
       ],
     },

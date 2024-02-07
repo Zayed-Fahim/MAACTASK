@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom/dist";
-import RegistrationForm from "../SmallComponents/RegistrationForm";
+import LoginForm from "../../SmallComponents/Home/LoginForm";
 
-const Register = () => {
+const Login = ({ setRedirectLoading }) => {
   const navigate = useNavigate();
 
   return (
@@ -18,21 +18,21 @@ const Register = () => {
         <div className="mx-auto max-w-max px-[13rem] py-[5rem]  bg-white sm:rounded-3xl flex flex-col gap-8">
           <div className="flex flex-col gap-5">
             <h1 className="text-5xl leading-[150%] font-bold text-center">
-              Create Account
+              Welcome Back!
             </h1>
             <p className="text-center text-[24px]">
-              Fill in the details below to create an account
+              Please login to your account
             </p>
           </div>
-          <RegistrationForm />
-          <div className="flex justify-center items-center text-2xl mt-5">
+          <LoginForm setRedirectLoading={setRedirectLoading} />
+          <div className="flex justify-center items-center text-2xl mt-16 mb-10">
             <h1 className="text-black">
-              Already have an account?{" "}
+              Don't have any account?{" "}
               <button
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/register")}
                 className="text-[#0052cc] cursor-pointer font-semibold"
               >
-                Sign In
+                Sign Up
               </button>
             </h1>
           </div>
@@ -42,4 +42,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

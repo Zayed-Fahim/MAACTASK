@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/logo/FieldX2.png";
+import logo from "../../../assets/logo/FieldX2.png";
 import { GrTwitter } from "react-icons/gr";
 import { RiLinkedinFill } from "react-icons/ri";
 import { FaFacebookF } from "react-icons/fa6";
