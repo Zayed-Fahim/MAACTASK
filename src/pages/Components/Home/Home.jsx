@@ -1,7 +1,7 @@
 import React from "react";
-import Button from "../SmallComponents/Button";
-import pc from "../../assets/images/1.png";
-import mobile from "../../assets/images/2.png";
+import pc from "../../../assets/images/1.png";
+import mobile from "../../../assets/images/2.png";
+import Button from "../../SmallComponents/Home/Button";
 
 const Home = () => {
   const downloadButtonClassNames = "download-button";

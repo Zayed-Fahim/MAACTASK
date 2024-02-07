@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
-import "../../CSS/RegistrationForm.css";
-import Button from "./Button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Button from "./Button";
+import "../../../CSS/RegistrationForm.css";
 
 const schema = yup
   .object({
@@ -22,7 +22,7 @@ const schema = yup
   })
   .required();
 
-const RegistrationForm = () => {
+const RegistrationForm = ({ setRedirectLoading }) => {
   const {
     handleSubmit,
     register,
@@ -43,8 +43,9 @@ const RegistrationForm = () => {
     const selectElement = document.getElementById("role");
     setState(selectElement.value ? "filled" : "");
   };
-
+  const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "https://maactask-server.vercel.app/api/v1/users/register",
@@ -52,15 +53,20 @@ const RegistrationForm = () => {
       );
       if (response.data.status === "Success") {
         toast.success("Registration successful!");
+        setIsLoading(false);
+        setTimeout(() => setRedirectLoading(true), 1000);
         setTimeout(() => {
           navigate("/login");
-        }, 1500);
+          setRedirectLoading(false);
+        }, 2500);
         reset();
       } else {
         toast.error(response.data.message);
+        setIsLoading(false);
       }
     } catch (error) {
       toast.error("Account already registered!");
+      setIsLoading(false);
     }
   };
 
@@ -216,7 +222,7 @@ const RegistrationForm = () => {
         />
         <label htmlFor="terms&conditions" className="text-2xl -pl-14">
           I read and agree to the{" "}
-          <span className="text-[#0052cc] cursor-pointer">
+          <span className="text-[#0052cc] cursor-pointer font-semibold">
             Terms & Conditions
           </span>
         </label>
@@ -224,7 +230,18 @@ const RegistrationForm = () => {
       <Button
         buttonClassNames={createAccountButtonClassNames}
         type="submit"
-        text="Create Account"
+        text={
+          <div>
+            {isLoading ? (
+              <div className="flex items-center gap-4 justify-center">
+                <p>Creating Account</p>
+                <div class="registration-loader" />
+              </div>
+            ) : (
+              "Create Account"
+            )}
+          </div>
+        }
       />
     </form>
   );

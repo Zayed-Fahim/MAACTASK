@@ -1,14 +1,18 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { Toaster } from "react-hot-toast";
 import "./App.css";
 import { AuthContext } from "./contexts/AuthProvider";
-import Loader from "./pages/SmallComponents/Loader";
 import Router from "./routes/Router";
-import { Toaster } from "react-hot-toast";
+import RedirectScreen from "./pages/SmallComponents/Home/RedirectScreen";
+import Loader from "./pages/SmallComponents/Home/Loader";
 
 const App = () => {
-  const { isLoading } = useContext(AuthContext);
+  const { isLoading, currentPath } = useContext(AuthContext);
+  const [redirectLoading, setRedirectLoading] = useState(false);
 
-  return (
+  return redirectLoading ? (
+    <RedirectScreen />
+  ) : (
     <>
       <style jsx="true">
         {`
@@ -17,11 +21,18 @@ const App = () => {
           }
         `}
       </style>
-      {isLoading ? (
+      {isLoading &&
+      (currentPath === "/" ||
+        currentPath === "/login" ||
+        currentPath === "/register" ||
+        currentPath === "/dashboard/area-list") ? (
         <Loader />
       ) : (
         <div className="background">
-          <Router />
+          <Router
+            redirectLoading={redirectLoading}
+            setRedirectLoading={setRedirectLoading}
+          />
           <Toaster position="top-right" reverseOrder={false} />
         </div>
       )}

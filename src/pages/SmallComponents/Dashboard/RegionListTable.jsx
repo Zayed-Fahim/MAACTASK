@@ -1,5 +1,6 @@
 import React from "react";
 import { BiSearchAlt } from "react-icons/bi";
+
 const RegionListTable = ({ regions }) => {
   return (
     <div className="overflow-x-auto rounded-[10px] bg-white w-full min-h-[710px] border-2 border-[#E6E6E6]">

@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom/dist";
-import logo from "../../assets/logo/FieldX.png";
-import Button from "../SmallComponents/Button";
+import Button from "../../SmallComponents/Home/Button";
+import logo from "../../../assets/logo/FieldX.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
